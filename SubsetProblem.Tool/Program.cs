@@ -1,43 +1,51 @@
 ﻿using System;
 using System.Diagnostics;
+using static System.Console;
 
 namespace SubsetProblem.Tool
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            //const int maxRuns = 1000000;
+            
             const int maxRuns = 10;
+
             int run = 0;
+            
             while (true)
             {
                 run++;
+
                 var seed = Guid.NewGuid().ToString();
                 var candidate = new Candidate(seed);
 
-                Console.WriteLine($"Run                 : {run} of {maxRuns}");
-                Console.WriteLine($"Seed was            : {seed}");
-                Console.WriteLine($"Members in set      : {candidate.NumberSet.Count}");
-                Console.WriteLine($"Set                 : {candidate.GetDisplayNumberSet()}");
-                Console.WriteLine($"Target              : {candidate.Target}");
+                WriteLine($"Run                 : {run} of {maxRuns}");
+                WriteLine($"Seed was            : {seed}");
+                WriteLine($"Members in set      : {candidate.NumberSet.Count}");
+                WriteLine($"Set                 : {candidate.GetDisplayNumberSet()}");
+                WriteLine($"Target              : {candidate.Target}");
 
                 string literal = candidate.ActualSolveSet.Count == 0 ? "None" : candidate.ActualSolveSet.Count.ToString();
-                Console.WriteLine($"Number of solutions : {literal}");
+                
+                WriteLine($"Number of solutions : {literal}");
                 if (candidate.ActualSolveSet.Count > 0)
-                    Console.WriteLine($"Solutions           : {candidate.GetSolveSet()}");
-                Console.WriteLine();
-                //System.Threading.Thread.Sleep(1000);                
+                    WriteLine($"Solutions           : {candidate.GetSolveSet()}");
+                
+                WriteLine();
+                
                 if (run == maxRuns)
                     break;
             }
+
             sw.Stop();
-            Console.WriteLine();
-            Console.WriteLine($"Ran in: {sw.ElapsedMilliseconds/1000} s");
-            Console.WriteLine($"        {sw.ElapsedMilliseconds} ms");
-            Console.WriteLine($"        {sw.ElapsedTicks} ticks");
+
+            WriteLine();
+            WriteLine($"Ran in: {sw.ElapsedMilliseconds/1000} s");
+            WriteLine($"        {sw.ElapsedMilliseconds} ms");
+            WriteLine($"        {sw.ElapsedTicks} ticks");
         }
     }
 }
