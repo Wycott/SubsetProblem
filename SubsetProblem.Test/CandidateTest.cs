@@ -1,5 +1,4 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 
 namespace SubsetProblem.Test
 {
@@ -9,6 +8,7 @@ namespace SubsetProblem.Test
         public void Oddity_One()
         {            
             var testGuid = "346f0902-291a-468e-b149-658646141a35";
+
             var candidate = new Candidate(testGuid);
             var gss = candidate.GetSolveSet();
             var gdns = candidate.GetDisplayNumberSet();
@@ -24,6 +24,7 @@ namespace SubsetProblem.Test
             var candidate = new Candidate(testGuid);
             var gss = candidate.GetSolveSet();
             var gdns = candidate.GetDisplayNumberSet();
+
             Assert.True(candidate.RawGuid == testGuid);
         }
 
@@ -35,6 +36,7 @@ namespace SubsetProblem.Test
             var candidate = new Candidate(testGuid);
             var gss = candidate.GetSolveSet();
             var gdns = candidate.GetDisplayNumberSet();
+
             Assert.True(candidate.RawGuid == testGuid);
         }
 
@@ -46,9 +48,8 @@ namespace SubsetProblem.Test
             var candidate = new Candidate(testGuid);
             var gss = candidate.GetSolveSet();
             var gdns = candidate.GetDisplayNumberSet();
-            Assert.True(candidate.RawGuid == testGuid);
-        }
 
-        //bdbdfa8b-ab51-484f-9aa3-a2c795be1326
+            Assert.True(candidate.RawGuid == testGuid);
+        }        
     }
 }
