@@ -6,7 +6,7 @@ namespace SubsetProblem
 {
     public class Candidate
     {
-        public string RawGuid { get; private set; }
+        public string RawGuid { get; }
         public Stack<string> NumberSeeds { get; set; } = new Stack<string>();
         public Stack<string> NumberOptions { get; set; } = new Stack<string>();
         public int Target { get; set; }
@@ -24,11 +24,15 @@ namespace SubsetProblem
 
         public string GetDisplayNumberSet()
         {
-            string retVal = string.Empty;
+            var retVal = string.Empty;
+
             if (NumberSet.Count == 0)
+            {
                 return retVal;
+            }
 
             NumberSet.Sort();
+
             foreach (var i in NumberSet)
             {
                 retVal += $"{i}, ";
@@ -39,11 +43,11 @@ namespace SubsetProblem
 
         public string GetSolveSet()
         {
-            string masterRetval = string.Empty + Environment.NewLine;
+            var masterRetVal = string.Empty + Environment.NewLine;
 
             foreach (var a in ActualSolveSet)
             {
-                string retVal = string.Empty;
+                var retVal = string.Empty;
 
                 foreach (var s in a)
                 {
@@ -52,10 +56,10 @@ namespace SubsetProblem
 
                 // A target of zero would yield the empty set as a solution so discard this should we get it
                 if (retVal.Length >= 2)
-                    masterRetval += "{ " + retVal.Substring(0, retVal.Length - 2) + " }" + Environment.NewLine;
+                    masterRetVal += "{ " + retVal.Substring(0, retVal.Length - 2) + " }" + Environment.NewLine;
             }
 
-            return masterRetval;
+            return masterRetVal;
         }
 
         private void Solve()
@@ -66,9 +70,10 @@ namespace SubsetProblem
 
             foreach (var l in solveSet)
             {
-
                 if (l.Sum() == Target)
+                {
                     ActualSolveSet.Add(l.ToList());
+                }
             }
         }
 
@@ -79,19 +84,25 @@ namespace SubsetProblem
 
         private void InitStacks()
         {
-            const string badGuy = "-";
-            List<string> nums = new List<string>() { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-            List<string> opts = new List<string>() { "a", "b", "c", "d", "e", "f" };
+            const string BadGuy = "-";
+            var numbers = new List<string>() { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+            var opts = new List<string>() { "a", "b", "c", "d", "e", "f" };
+
             foreach (var s in RawGuid)
             {
                 var actual = s.ToString();
-                if (actual == badGuy)
+                if (actual == BadGuy)
                     continue;
 
-                if (nums.Contains(actual))
+                if (numbers.Contains(actual))
+                {
                     NumberSeeds.Push(actual);
+                }
+
                 if (opts.Contains(actual))
+                {
                     NumberOptions.Push(actual);
+                }
             }
         }
 
@@ -100,7 +111,7 @@ namespace SubsetProblem
             while (NumberOptions.Count > 0)
             {
                 var currentOption = NumberOptions.Pop();
-                string newSetMember = string.Empty;
+                string newSetMember;
 
                 if (currentOption == "a" || currentOption == "b")
                 {
@@ -108,7 +119,7 @@ namespace SubsetProblem
                     {
                         newSetMember = NumberSeeds.Pop();
 
-                        int newNum = Convert.ToInt32(newSetMember);
+                        var newNum = Convert.ToInt32(newSetMember);
 
                         if (!NumberSet.Contains(newNum) && newNum != 0)
                             NumberSet.Add(newNum);
@@ -121,7 +132,7 @@ namespace SubsetProblem
                     {
                         newSetMember = NumberSeeds.Pop() + NumberSeeds.Pop();
 
-                        int newNum = Convert.ToInt32(newSetMember);
+                        var newNum = Convert.ToInt32(newSetMember);
 
                         if (!NumberSet.Contains(newNum) && newNum != 0)
                             NumberSet.Add(newNum);
