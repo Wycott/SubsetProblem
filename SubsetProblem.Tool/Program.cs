@@ -22,7 +22,7 @@ namespace SubsetProblem.Tool
 
                 var seed = Guid.NewGuid().ToString();
                 var candidate = new Candidate(seed);
-                int solutions = candidate.TargetSolutionSet.Count;
+                var solutions = candidate.TargetSolutionSet.Count;
 
                 if (!SingleSolutionsOnly || (SingleSolutionsOnly && solutions == 1))
                 {
