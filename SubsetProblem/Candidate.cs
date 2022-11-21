@@ -7,11 +7,12 @@ namespace SubsetProblem
     public class Candidate
     {
         public string RawGuid { get; }
-        public Stack<string> NumberSeeds { get; set; } = new Stack<string>();
-        public Stack<string> NumberOptions { get; set; } = new Stack<string>();
-        public int Target { get; set; }
-        public List<int> NumberSet { get; set; } = new List<int>();
-        public List<List<int>> ActualSolveSet { get; set; } = new List<List<int>>();
+        public int TargetSum { get; private set; }
+        public List<int> SourceNumberSet { get; } = new List<int>();
+        public List<List<int>> TargetSolutionSet { get; } = new List<List<int>>();
+
+        private Stack<string> NumberSeeds { get; } = new Stack<string>();
+        private Stack<string> NumberOptions { get; } = new Stack<string>();
 
         public Candidate(string guid)
         {
@@ -26,14 +27,14 @@ namespace SubsetProblem
         {
             var retVal = string.Empty;
 
-            if (NumberSet.Count == 0)
+            if (SourceNumberSet.Count == 0)
             {
                 return retVal;
             }
 
-            NumberSet.Sort();
+            SourceNumberSet.Sort();
 
-            foreach (var i in NumberSet)
+            foreach (var i in SourceNumberSet)
             {
                 retVal += $"{i}, ";
             }
@@ -45,7 +46,7 @@ namespace SubsetProblem
         {
             var masterRetVal = string.Empty + Environment.NewLine;
 
-            foreach (var a in ActualSolveSet)
+            foreach (var a in TargetSolutionSet)
             {
                 var retVal = string.Empty;
 
@@ -56,7 +57,9 @@ namespace SubsetProblem
 
                 // A target of zero would yield the empty set as a solution so discard this should we get it
                 if (retVal.Length >= 2)
+                {
                     masterRetVal += "{ " + retVal.Substring(0, retVal.Length - 2) + " }" + Environment.NewLine;
+                }
             }
 
             return masterRetVal;
@@ -64,22 +67,22 @@ namespace SubsetProblem
 
         private void Solve()
         {
-            var set = new Powerset<int>(NumberSet);
+            var set = new Powerset<int>(SourceNumberSet);
             set.GrowTree();
             var solveSet = set.Candidates;
 
             foreach (var l in solveSet)
             {
-                if (l.Sum() == Target)
+                if (l.Sum() == TargetSum)
                 {
-                    ActualSolveSet.Add(l.ToList());
+                    TargetSolutionSet.Add(l.ToList());
                 }
             }
         }
 
         private void BuildTarget()
         {
-            Target = NumberSet.Sum() / 2;
+            TargetSum = SourceNumberSet.Sum() / 2;
         }
 
         private void InitStacks()
@@ -121,8 +124,8 @@ namespace SubsetProblem
 
                         var newNum = Convert.ToInt32(newSetMember);
 
-                        if (!NumberSet.Contains(newNum) && newNum != 0)
-                            NumberSet.Add(newNum);
+                        if (!SourceNumberSet.Contains(newNum) && newNum != 0)
+                            SourceNumberSet.Add(newNum);
                     }
                 }
 
@@ -134,21 +137,21 @@ namespace SubsetProblem
 
                         var newNum = Convert.ToInt32(newSetMember);
 
-                        if (!NumberSet.Contains(newNum) && newNum != 0)
-                            NumberSet.Add(newNum);
+                        if (!SourceNumberSet.Contains(newNum) && newNum != 0)
+                            SourceNumberSet.Add(newNum);
                     }
                 }
 
                 if (currentOption == "e" || currentOption == "f")
                 {
-                    if (NumberSet.Count > 0)
+                    if (SourceNumberSet.Count > 0)
                     {
-                        var topIndex = NumberSet.Count - 1;
+                        var topIndex = SourceNumberSet.Count - 1;
 
-                        var newVal = NumberSet[topIndex] * -1;
+                        var newVal = SourceNumberSet[topIndex] * -1;
 
-                        if (!NumberSet.Contains(newVal))
-                            NumberSet[topIndex] = NumberSet[topIndex] * -1;
+                        if (!SourceNumberSet.Contains(newVal))
+                            SourceNumberSet[topIndex] = SourceNumberSet[topIndex] * -1;
                     }
                 }
             }

@@ -8,7 +8,8 @@ namespace SubsetProblem.Tool
     {
         private static void Main()
         {
-            const int MaxRuns = 10;
+            const bool SingleSolutionsOnly = true;
+            const int MaxRuns = 100;
 
             var sw = new Stopwatch();
             sw.Start();
@@ -21,23 +22,28 @@ namespace SubsetProblem.Tool
 
                 var seed = Guid.NewGuid().ToString();
                 var candidate = new Candidate(seed);
+                int solutions = candidate.TargetSolutionSet.Count;
 
-                WriteLine($"Run                 : {run} of {MaxRuns}");
-                WriteLine($"Seed was            : {seed}");
-                WriteLine($"Members in set      : {candidate.NumberSet.Count}");
-                WriteLine($"Set                 : {candidate.GetDisplayNumberSet()}");
-                WriteLine($"Target              : {candidate.Target}");
-
-                var literal = candidate.ActualSolveSet.Count == 0 ? "None" : candidate.ActualSolveSet.Count.ToString();
-
-                WriteLine($"Number of solutions : {literal}");
-
-                if (candidate.ActualSolveSet.Count > 0)
+                if (!SingleSolutionsOnly || (SingleSolutionsOnly && solutions == 1))
                 {
-                    WriteLine($"Solutions           : {candidate.GetSolveSet()}");
-                }
 
-                WriteLine();
+                    WriteLine($"Run                 : {run} of {MaxRuns}");
+                    WriteLine($"Seed was            : {seed}");
+                    WriteLine($"Members in set      : {candidate.SourceNumberSet.Count}");
+                    WriteLine($"Set                 : {candidate.GetDisplayNumberSet()}");
+                    WriteLine($"TargetSum              : {candidate.TargetSum}");
+
+                    var literal = solutions == 0 ? "None" : solutions.ToString();
+
+                    WriteLine($"Number of solutions : {literal}");
+
+                    if (candidate.TargetSolutionSet.Count > 0)
+                    {
+                        WriteLine($"Solutions           : {candidate.GetSolveSet()}");
+                    }
+
+                    WriteLine();
+                }
 
                 if (run == MaxRuns)
                 {
