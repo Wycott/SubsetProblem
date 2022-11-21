@@ -50,7 +50,7 @@ namespace SubsetProblem.Tool
             WriteLine($"Seed was            : {seed}");
             WriteLine($"Members in set      : {candidate.SourceNumberSet.Count}");
             WriteLine($"Set                 : {candidate.GetDisplayNumberSet()}");
-            WriteLine($"TargetSum              : {candidate.TargetSum}");
+            WriteLine($"TargetSum           : {candidate.TargetSum}");
 
             var literal = solutions == 0 ? "None" : solutions.ToString();
 
