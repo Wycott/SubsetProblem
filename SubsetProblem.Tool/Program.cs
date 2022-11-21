@@ -23,6 +23,7 @@ internal static class Program
             var candidate = new Candidate(seed);
             var solutions = candidate.TargetSolutionSet.Count;
 
+            // TODO: Drive this from command line to stop nags
             if (!SingleSolutionsOnly || (SingleSolutionsOnly && solutions == 1))
             {
                 DisplayOutputSet(run, MaxRuns, seed, candidate, solutions);
